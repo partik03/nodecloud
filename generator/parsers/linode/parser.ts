@@ -7,7 +7,7 @@ export function getAST(sdkFileName) {
 		try {
 			const file = path.join(
 				__dirname,
-				'../../../node_modules/linode/dist/modules/' +
+				'../../../node_modules/@linode/dist/modules/' +
 					sdkFileName.toLowerCase()
 			);
 			const ast = createSourceFile(

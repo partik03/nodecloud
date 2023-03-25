@@ -86,6 +86,8 @@ export function extractSDKData(sdkClassAst, serviceClass) {
 
 export function generateDOClass(serviceClass, serviceName) {
   const sdkFile = serviceClass[Object.keys(serviceClass)[0]].split(" ")[0];
+  console.log("Sdkfile",sdkFile);
+  
   getAST(sdkFile).then(async result => {
     const sdkClassAst = result;
     try {
