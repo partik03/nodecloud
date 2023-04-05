@@ -36,52 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getAST = void 0;
-var fs = require("fs");
-var path = require("path");
-var typescript_1 = require("typescript");
-function getAST(sdkFileName) {
-    var _this = this;
-    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var file, ast, cloned_1, error_1;
+exports.generateLinodeClass = void 0;
+var parser_1 = require("../../parsers/linode/parser");
+function generateLinodeClass(serviceClass, serviceName) {
+    return __awaiter(this, void 0, void 0, function () {
+        var methods, files, sdkFiles;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    file = path.join(__dirname, "../../../node_modules/do-wrapper/dist/modules/" +
-                        sdkFileName.toLowerCase());
-                    ast = typescript_1.createSourceFile(file, fs.readFileSync(file).toString(), typescript_1.ScriptTarget.Latest, true);
-                    cloned_1 = null;
-                    return [4 /*yield*/, ast.forEachChild(function (child) {
-                            console.log(typescript_1.SyntaxKind[child.kind]);
-                            if (typescript_1.SyntaxKind[child.kind] === "ClassDeclaration") {
-                                cloned_1 = Object.assign({}, child);
-                            }
-                        })];
+                    methods = [];
+                    console.log("serviceClass", serviceClass);
+                    Object.keys(serviceClass).map(function (key, index) {
+                        methods.push({
+                            pkgName: serviceClass[key].split(" ")[0],
+                            fileName: serviceClass[key].split(" ")[1],
+                            functionName: key,
+                            SDKFunctionName: serviceClass[key].split(" ")[2],
+                            params: [],
+                            returnType: null,
+                            client: null
+                        });
+                    });
+                    files = Array.from(new Set(methods.map(function (method) { return method.fileName; })));
+                    sdkFiles = files.map(function (file) {
+                        return {
+                            fileName: file,
+                            pkgName: methods[0].pkgName,
+                            ast: null,
+                            client: null,
+                            sdkFunctionNames: methods
+                                .filter(function (method) { return method.fileName === file; })
+                                .map(function (method) { return method.SDKFunctionName; })
+                        };
+                    });
+                    console.log("sdkFiles", sdkFiles);
+                    return [4 /*yield*/, Promise.all(sdkFiles.map(function (file) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, parser_1.getAST(file)];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); }))];
                 case 1:
                     _a.sent();
-                    // // fs.writeFileSync("cloned", cloned);
-                    // // fs.writeFileSync("cloned", cloned);
-                    // console.log("Cloned",cloned);
-                    if (!cloned_1) {
-                        reject(new Error("Class not found!"));
-                    }
-                    else {
-                        resolve(cloned_1);
-                    }
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_1 = _a.sent();
-                    if (error_1.code === "ENOENT") {
-                        reject(new Error("File not found!"));
-                    }
-                    else {
-                        reject(error_1);
-                    }
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
-    }); });
+    });
 }
-exports.getAST = getAST;
+exports.generateLinodeClass = generateLinodeClass;

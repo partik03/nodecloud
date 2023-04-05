@@ -24,10 +24,10 @@ ComputeInstance:
         start: droplets.d.ts requestAction
         stop: droplets.d.ts requestAction
     Linode:
-        create: linodes types.ts createLinode
-        list: linodes types.ts getLinodes
-        destroy: linodes types.ts deleteLinode
-        update: linodes types.ts updateLinode
+        create: linodes linodes.d.ts createLinode
+        list: linodes linodes.d.ts getLinodes
+        destroy: linodes linodes.d.ts deleteLinode
+        update: linodes linodes.d.ts updateLinode
 
 StorageBucket:
     AWS:
@@ -48,10 +48,10 @@ StorageBucket:
         list: storage storage.d.ts getBuckets
         upload: storage bucket.d.ts upload
         makePublic: storage file.d.ts makePublic
-    Linode:
-        create: object-storage bucket.d.ts createBucket
-        delete: object-storage bucket.d.ts deleteBucket
-        list: object-storage bucket.d.ts  getBuckets
+    # Linode:
+    #     create: object-storage bucket.d.ts createBucket
+    #     delete: object-storage bucket.d.ts deleteBucket
+    #     list: object-storage bucket.d.ts  getBuckets
 
 PaaS:
     AWS:
@@ -127,13 +127,13 @@ Kubernetes:
         deleteNodegroup: kubernetes.d.ts deleteNodePool
         describeNodeGroup: kubernetes.d.ts getNodePoolById
         listNodegroups: kubernetes.d.ts getNodePools
-    Linode:
-        create: kubernetes kubernetes.d.ts createKubernetesCluster
-        delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
-        getNodePool: kubernetes nodePool.d.ts getNodePool
-        createNodePool: kubernetes nodePool.d.ts createNodePool
-        updateNodePool: kubernetes nodePool.d.ts updateNodePool
-        deleteNodePool: kubernetes nodePool.d.ts deleteNodePool
+    # Linode:
+    #     create: kubernetes kubernetes.d.ts createKubernetesCluster
+    #     delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
+    #     getNodePool: kubernetes nodePool.d.ts getNodePool
+    #     createNodePool: kubernetes nodePool.d.ts createNodePool
+    #     updateNodePool: kubernetes nodePool.d.ts updateNodePool
+    #     deleteNodePool: kubernetes nodePool.d.ts deleteNodePool
 
 Monitoring:
     GCP:
@@ -232,7 +232,7 @@ NoSql:
         getClusters: databases.d.ts getAllClusters
         getCluster: databases.d.ts getClusterById
         updateCluster: databases.d.ts resizeCluster
-    Linode:
+    # Linode:
         
 
 DNS:
@@ -259,12 +259,12 @@ DNS:
         getRecords: domains.d.ts getAllRecords
         getRecord: domains.d.ts getRecord
         changeRecordSets: domains.d.ts updateRecord
-    Linode:
-       createRecords: domains record.d.ts createDomainRecord 
-       deleteRecord: domains record.d.ts deleteDomainRecord
-       getRecords: domains record.d.ts getDomainRecords
-       getRecord: domains record.d.ts getDomainRecord
-       changeRecordSets: domains record.d.ts updateDomainRecord
+    # Linode:
+    #    createRecords: domains record.d.ts createDomainRecord 
+    #    deleteRecord: domains record.d.ts deleteDomainRecord
+    #    getRecords: domains record.d.ts getDomainRecords
+    #    getRecord: domains record.d.ts getDomainRecord
+    #    changeRecordSets: domains record.d.ts updateDomainRecord
 
 LoadBalancer:
     AWS:
@@ -284,12 +284,12 @@ LoadBalancer:
         delete: load-balancers.d.ts delete
         list: load-balancers.d.ts getAll
         update: load-balancers.d.ts update
-    Linode:
-        create: nodebalancers nodebalancers.d.ts createNodeBalancer
-        delete: nodebalancers nodebalancers.d.ts deleteNodeBalancer
-        list: nodebalancers nodebalancers.d.ts getNodeBalancers
-        update: nodebalancers nodebalancers.d.ts updateNodeBalancer
-        describe: nodebalancers nodebalancers.d.ts getNodeBalancer
+    # Linode:
+    #     create: nodebalancers nodebalancers.d.ts createNodeBalancer
+    #     delete: nodebalancers nodebalancers.d.ts deleteNodeBalancer
+    #     list: nodebalancers nodebalancers.d.ts getNodeBalancers
+    #     update: nodebalancers nodebalancers.d.ts updateNodeBalancer
+    #     describe: nodebalancers nodebalancers.d.ts getNodeBalancer
 
 IAM:
     AWS:
@@ -393,9 +393,9 @@ BlockStorage:
         delete: volumes.d.ts deleteById
         list: volumes.d.ts getAll
         describe: volumes.d.ts getById
-    Linode:
-        create: volumes volumes.d.ts createVolume
-        delete: volumes volumes.d.ts deleteVolume
-        list: volumes volumes.d.ts getVolumes
-        describe: volumes volumes.d.ts getVolume
-        update: volumes volumes.d.ts updateVolume
+    # Linode:
+    #     create: volumes volumes.d.ts createVolume
+    #     delete: volumes volumes.d.ts deleteVolume
+    #     list: volumes volumes.d.ts getVolumes
+    #     describe: volumes volumes.d.ts getVolume
+    #     update: volumes volumes.d.ts updateVolume

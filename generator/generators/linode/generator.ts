@@ -1,133 +1,57 @@
-import * as fs from 'fs';
-import { createSourceFile, ScriptTarget, SyntaxKind } from 'typescript';
-
-import { getAST } from '../../parsers/linode/parser';
-import { transform } from '../../transformers/linode/transformer';
-import { getDir, printFile } from '../lib/helper';
+import { getAST } from "../../parsers/linode/parser";
 
 interface FunctionData {
-	functionName: string;
-	SDKFunctionName: string;
-	params: param[];
+  pkgName: string;
+  fileName: string;
+  functionName: string;
+  SDKFunctionName: string;
+  params: param[];
+  returnType: string;
+  client: string;
 }
 
 interface param {
-	name: string;
-	type: string;
-	typeName: string;
+  name: string;
+  type: string;
 }
 
-interface ClassData {
-	className: string;
-	functions: FunctionData[];
-	serviceName: string;
-}
 
-const dummyFile = process.cwd() + '/dummyClasses/linode.js';
+export async function generateLinodeClass(serviceClass, serviceName) {
+  let methods: FunctionData[] = [];
+    console.log("serviceClass", serviceClass);
+    
+  Object.keys(serviceClass).map((key, index) => {
+    methods.push({
+      pkgName: serviceClass[key].split(" ")[0],
+      fileName: serviceClass[key].split(" ")[1],
+      functionName: key,
+      SDKFunctionName: serviceClass[key].split(" ")[2],
+      params: [],
+      returnType: null,
+      client: null
+    });
+  });
 
-const dummyAst = createSourceFile(
-	dummyFile,
-	fs.readFileSync(dummyFile).toString(),
-	ScriptTarget.Latest,
-	true
-);
+  const files = Array.from(new Set(methods.map(method => method.fileName)));
 
-export function extractSDKData(sdkClassAst, serviceClass) {
-	let methods: FunctionData[] = [];
-	const functions = [];
+  const sdkFiles = files.map(file => {
+    return {
+      fileName: file,
+      pkgName: methods[0].pkgName,
+      ast: null,
+      client: null,
+      sdkFunctionNames: methods
+        .filter(method => method.fileName === file)
+        .map(method => method.SDKFunctionName)
+    };
+  });
+  console.log("sdkFiles", sdkFiles);
+  
 
-	Object.keys(serviceClass).map((key, index) => {
-		functions.push(serviceClass[key].split(' ')[1]);
-	});
+  await Promise.all(
+    sdkFiles.map(async file => {
+        await getAST(file);
+    })
+  ); 
 
-	sdkClassAst.members.map(method => {
-		if (method.name && functions.includes(method.name.text)) {
-			let name;
-			Object.keys(serviceClass).map((key, index) => {
-				if (serviceClass[key].split(' ')[1] === method.name.text) {
-					name = key;
-				}
-			});
-
-			const parameters = [];
-			method.parameters.map(param => {
-				if (param.name.text !== 'callback') {
-					const parameter = {
-						name: param.name.text,
-						optional: param.questionToken ? true : false,
-						type: SyntaxKind[param.type.kind],
-						typeName: null,
-					};
-
-					if (
-						parameter.type === 'TypeReference' &&
-						param.type.typeName
-					) {
-						parameter.typeName = param.type.typeName.text;
-					}
-
-					parameters.push(parameter);
-				}
-			});
-
-			methods.push({
-				functionName: name.toString(),
-				SDKFunctionName: method.name.text.toString(),
-				params: parameters,
-			});
-		}
-	});
-
-	const classData: ClassData = {
-		className: sdkClassAst.name.text,
-		functions: methods,
-		serviceName: null,
-	};
-
-	return classData;
-}
-
-export function generateLinodeClass(serviceClass, serviceName) {
-	const sdkFile = serviceClass[Object.keys(serviceClass)[0]].split(' ')[0];
-	getAST(sdkFile).then(async result => {
-		const sdkClassAst = result;
-		try {
-			const classData: ClassData = extractSDKData(
-				sdkClassAst,
-				serviceClass
-			);
-			classData.serviceName = serviceName;
-			const output = await transform(dummyAst, classData);
-			let filePath;
-			const dir = getDir(serviceName);
-			if (
-				!fs.existsSync(
-					process.cwd() + '/generatedClasses/Linode/' + dir
-				)
-			) {
-				fs.mkdirSync(process.cwd() + '/generatedClasses/Linode/' + dir);
-			}
-			if (/^[A-Z]*$/.test(serviceName)) {
-				filePath =
-					process.cwd() +
-					'/generatedClasses/Linode/' +
-					dir +
-					'/linode-' +
-					serviceName +
-					'.js';
-			} else {
-				filePath =
-					process.cwd() +
-					'/generatedClasses/Linode/' +
-					dir +
-					'/linode-' +
-					serviceName.charAt(0).toLowerCase() +
-					serviceName.slice(1) +
-					'.js';
-			}
-			printFile(filePath, output);
-		} catch (e) {
-			console.error(e);
-		}
-	});
 }

@@ -91,7 +91,7 @@ exports.extractSDKData = extractSDKData;
 function generateDOClass(serviceClass, serviceName) {
     var _this = this;
     var sdkFile = serviceClass[Object.keys(serviceClass)[0]].split(" ")[0];
-    console.log("Sdkfile", sdkFile);
+    // console.log("Sdkfile",sdkFile);
     parser_1.getAST(sdkFile).then(function (result) { return __awaiter(_this, void 0, void 0, function () {
         var sdkClassAst, classData, output, filePath, dir, e_1;
         return __generator(this, function (_a) {
