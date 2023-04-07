@@ -233,7 +233,6 @@ NoSql:
         getCluster: databases.d.ts getClusterById
         updateCluster: databases.d.ts resizeCluster
     # Linode:
-        
 
 DNS:
     AWS:
@@ -260,7 +259,7 @@ DNS:
         getRecord: domains.d.ts getRecord
         changeRecordSets: domains.d.ts updateRecord
     # Linode:
-    #    createRecords: domains record.d.ts createDomainRecord 
+    #    createRecords: domains record.d.ts createDomainRecord
     #    deleteRecord: domains record.d.ts deleteDomainRecord
     #    getRecords: domains record.d.ts getDomainRecords
     #    getRecord: domains record.d.ts getDomainRecord
