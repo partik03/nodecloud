@@ -24,10 +24,10 @@ ComputeInstance:
         start: droplets.d.ts requestAction
         stop: droplets.d.ts requestAction
     Linode:
-        create: linodes linodes.d.ts createLinode
-        list: linodes linodes.d.ts getLinodes
-        destroy: linodes linodes.d.ts deleteLinode
-        update: linodes linodes.d.ts updateLinode
+        # create: linodes linodes.d.ts createLinode
+        # list: linodes linodes.d.ts getLinodes
+        # destroy: linodes linodes.d.ts deleteLinode
+        # update: linodes linodes.d.ts updateLinode
 
 StorageBucket:
     AWS:
@@ -127,8 +127,8 @@ Kubernetes:
         deleteNodegroup: kubernetes.d.ts deleteNodePool
         describeNodeGroup: kubernetes.d.ts getNodePoolById
         listNodegroups: kubernetes.d.ts getNodePools
-    # Linode:
-    #     create: kubernetes kubernetes.d.ts createKubernetesCluster
+    Linode:
+        create: kubernetes kubernetes.d.ts createKubernetesCluster
     #     delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
     #     getNodePool: kubernetes nodePool.d.ts getNodePool
     #     createNodePool: kubernetes nodePool.d.ts createNodePool

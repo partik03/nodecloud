@@ -20,9 +20,12 @@ export function getAST(sdkFileInfo) {
 			);
 
 			let cloned = null;
-
+            
 			await ast.forEachChild(child => {
-				console.log('Linode', SyntaxKind[child.kind]);
+                fs.writeFile("test.txt",SyntaxKind[child.kind],null)
+                // console.log(SyntaxKind[child.kind]);
+                
+				// console.log('Linode', SyntaxKind[child.kind]);
 
 				if (SyntaxKind[child.kind] === 'FirstStatement') {
 					cloned = Object.assign({}, child);
