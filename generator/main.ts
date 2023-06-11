@@ -20,8 +20,8 @@ try {
 			// 	generateGCPClass(services[service][provider], service);
 			// } else if (provider == 'DO') {
 			// 	generateDOClass(services[service][provider], service);
-			// } else 
-      if (provider == 'Linode') {
+			// } else
+			if (provider == 'Linode') {
 				generateLinodeClass(services[service][provider], service);
 			}
 		});

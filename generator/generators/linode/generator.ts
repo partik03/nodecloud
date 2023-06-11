@@ -18,7 +18,7 @@ interface param {
 export async function generateLinodeClass(serviceClass, serviceName) {
 	let methods: FunctionData[] = [];
 	console.log('serviceClass', serviceClass);
-	if(serviceClass==null) return
+	if (serviceClass == null) return;
 	Object.keys(serviceClass).map((key, index) => {
 		methods.push({
 			pkgName: serviceClass[key].split(' ')[0],
