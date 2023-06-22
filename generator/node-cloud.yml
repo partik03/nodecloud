@@ -129,11 +129,11 @@ Kubernetes:
         listNodegroups: kubernetes.d.ts getNodePools
     Linode:
         create: kubernetes kubernetes.d.ts createKubernetesCluster
-    #     delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
-    #     getNodePool: kubernetes nodePool.d.ts getNodePool
-    #     createNodePool: kubernetes nodePool.d.ts createNodePool
-    #     updateNodePool: kubernetes nodePool.d.ts updateNodePool
-    #     deleteNodePool: kubernetes nodePool.d.ts deleteNodePool
+        # delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
+        # getNodePool: kubernetes nodePools.d.ts getNodePool
+        # createNodePool: kubernetes nodePools.d.ts createNodePool
+        # updateNodePool: kubernetes nodePools.d.ts updateNodePool
+        # deleteNodePool: kubernetes nodePools.d.ts deleteNodePool
 
 Monitoring:
     GCP:
