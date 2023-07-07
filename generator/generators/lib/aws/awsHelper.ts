@@ -21,7 +21,7 @@ export function groupAWSMethods(methods): any {
 }
 
 export function filterAWSMethods(groupedMethods): any {
-  let methods = [];
+  const methods = [];
   groupedMethods.map(group => {
     group.array.sort(function(a, b) {
       return a.params.length - b.params.length;

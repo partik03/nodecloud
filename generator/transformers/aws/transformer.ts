@@ -57,7 +57,7 @@ export async function transform(
   ) => (rootNode: T) => {
     function visit(node: ts.Node): ts.Node {
       if (ts.isClassDeclaration(node)) {
-        let functions: any = [];
+        const functions: any = [];
         classData.functions.map(method => {
           const clonedNode = Object.assign({}, node.members[1]);
           clonedNode.name = ts.createIdentifier(method.functionName);
@@ -176,7 +176,7 @@ export async function transform(
       }
 
       if (ts.isMethodDeclaration(node)) {
-        let parameters = classData.functions[count].params.map(param => {
+        const parameters = classData.functions[count].params.map(param => {
           let statment;
 
           if (param.optional) {

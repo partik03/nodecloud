@@ -72,7 +72,7 @@ export async function classBasedTransform(
   ) => (rootNode: T) => {
     function visit(node: ts.Node): ts.Node {
       if (ts.isClassDeclaration(node)) {
-        let functions: any = [];
+        const functions: any = [];
         data.functions.map(method => {
           let clonedNode;
           if (method.returnTypeName === "Promise") {
@@ -255,7 +255,7 @@ export async function classBasedTransform(
       }
 
       if (ts.isMethodDeclaration(node)) {
-        let parameters = data.functions[count].allParams.map(param => {
+        const parameters = data.functions[count].allParams.map(param => {
           let statment;
 
           if (param.optional) {

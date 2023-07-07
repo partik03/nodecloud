@@ -53,7 +53,7 @@ export function extractClassBasedSDKData(methods, sdkFiles): any {
   const specifiedMethods = JSON.parse(JSON.stringify(methods));
   return new Promise(async (resolve, reject) => {
     try {
-      let classes: ClassData[] = [];
+      const classes: ClassData[] = [];
 
       sdkFiles.map(file => {
         file.classes.map(classAst => {
@@ -142,7 +142,7 @@ export function extractClassBasedSDKData(methods, sdkFiles): any {
       methods = [];
 
       classes.map(classData => {
-        let filteredMethods: any = classData.methods.filter(
+        const filteredMethods: any = classData.methods.filter(
           meth => meth.functionName !== null
         );
         filteredMethods.map(filMeth => {
@@ -344,7 +344,7 @@ async function generateClientBasedCode(methods, serviceName) {
 }
 
 export async function generateGCPClass(serviceClass, serviceName) {
-  let methods: FunctionData[] = [];
+  const methods: FunctionData[] = [];
   const data: any = {};
 
   Object.keys(serviceClass).map((key, index) => {

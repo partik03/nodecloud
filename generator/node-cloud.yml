@@ -24,10 +24,10 @@ ComputeInstance:
         start: droplets.d.ts requestAction
         stop: droplets.d.ts requestAction
     Linode:
-        # create: linodes linodes.d.ts createLinode
-        # list: linodes linodes.d.ts getLinodes
-        # destroy: linodes linodes.d.ts deleteLinode
-        # update: linodes linodes.d.ts updateLinode
+        create: linodes linodes.d.ts createLinode
+        list: linodes linodes.d.ts getLinodes
+        destroy: linodes linodes.d.ts deleteLinode
+        update: linodes linodes.d.ts updateLinode
 
 StorageBucket:
     AWS:
@@ -49,9 +49,9 @@ StorageBucket:
         upload: storage bucket.d.ts upload
         makePublic: storage file.d.ts makePublic
     # Linode:
-    #     create: object-storage bucket.d.ts createBucket
-    #     delete: object-storage bucket.d.ts deleteBucket
-    #     list: object-storage bucket.d.ts  getBuckets
+    #     create: object-storage buckets.d.ts createBucket
+    #     delete: object-storage buckets.d.ts deleteBucket
+    #     list: object-storage buckets.d.ts getBuckets
 
 PaaS:
     AWS:
@@ -127,13 +127,13 @@ Kubernetes:
         deleteNodegroup: kubernetes.d.ts deleteNodePool
         describeNodeGroup: kubernetes.d.ts getNodePoolById
         listNodegroups: kubernetes.d.ts getNodePools
-    Linode:
-        create: kubernetes kubernetes.d.ts createKubernetesCluster
-        # delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
-        # getNodePool: kubernetes nodePools.d.ts getNodePool
-        # createNodePool: kubernetes nodePools.d.ts createNodePool
-        # updateNodePool: kubernetes nodePools.d.ts updateNodePool
-        # deleteNodePool: kubernetes nodePools.d.ts deleteNodePool
+    # Linode:
+    #     create: kubernetes kubernetes.d.ts createKubernetesCluster
+    #     delete: kubernetes kubernetes.d.ts deleteKubernetesCluster
+    #     getNodePool: kubernetes nodePools.d.ts getNodePool
+    #     createNodePool: kubernetes nodePools.d.ts createNodePool
+    #     updateNodePool: kubernetes nodePools.d.ts updateNodePool
+    #     deleteNodePool: kubernetes nodePools.d.ts deleteNodePool
 
 Monitoring:
     GCP:
@@ -232,7 +232,6 @@ NoSql:
         getClusters: databases.d.ts getAllClusters
         getCluster: databases.d.ts getClusterById
         updateCluster: databases.d.ts resizeCluster
-    # Linode:
 
 DNS:
     AWS:
@@ -259,11 +258,11 @@ DNS:
         getRecord: domains.d.ts getRecord
         changeRecordSets: domains.d.ts updateRecord
     # Linode:
-    #    createRecords: domains record.d.ts createDomainRecord
-    #    deleteRecord: domains record.d.ts deleteDomainRecord
-    #    getRecords: domains record.d.ts getDomainRecords
-    #    getRecord: domains record.d.ts getDomainRecord
-    #    changeRecordSets: domains record.d.ts updateDomainRecord
+    #    createRecords: domains records.d.ts createDomainRecord
+    #    deleteRecord: domains records.d.ts deleteDomainRecord
+    #    getRecords: domains records.d.ts getDomainRecords
+    #    getRecord: domains records.d.ts getDomainRecord
+    #    changeRecordSets: domains records.d.ts updateDomainRecord
 
 LoadBalancer:
     AWS:

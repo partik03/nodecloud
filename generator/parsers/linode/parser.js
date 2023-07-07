@@ -148,7 +148,7 @@ function getAST(sdkFileInfo) {
 	var _this = this;
 	return new Promise(function(resolve, reject) {
 		return __awaiter(_this, void 0, void 0, function() {
-			var file, ast, cloned_1, error_1;
+			var file, ast, cloned_1, tmp_1, error_1;
 			return __generator(this, function(_a) {
 				switch (_a.label) {
 					case 0:
@@ -156,9 +156,9 @@ function getAST(sdkFileInfo) {
 						file = path.join(
 							__dirname,
 							'../../../node_modules/@linode/api-v4/lib/' +
-								sdkFileInfo.pkgName.toLowerCase() +
+								sdkFileInfo.pkgName +
 								'/' +
-								sdkFileInfo.fileName.toLowerCase()
+								sdkFileInfo.fileName
 						);
 						ast = typescript_1.createSourceFile(
 							file,
@@ -166,28 +166,24 @@ function getAST(sdkFileInfo) {
 							typescript_1.ScriptTarget.Latest,
 							true
 						);
-						cloned_1 = null;
+						cloned_1 = [];
+						tmp_1 = null;
 						return [
 							4 /*yield*/,
 							ast.forEachChild(function(child) {
-								fs.writeFile(
-									'test.txt',
-									typescript_1.SyntaxKind[child.kind],
-									null
-								);
-								// console.log(SyntaxKind[child.kind]);
-								// console.log('Linode', SyntaxKind[child.kind]);
 								if (
 									typescript_1.SyntaxKind[child.kind] ===
 									'FirstStatement'
 								) {
-									cloned_1 = Object.assign({}, child);
+									tmp_1 = Object.assign({}, child);
+									cloned_1.push(
+										tmp_1.declarationList.declarations[0]
+									);
 								}
 							}),
 						];
 					case 1:
 						_a.sent();
-						console.log('cloned', cloned_1);
 						if (!cloned_1) {
 							reject(new Error('Function not found!'));
 						} else {

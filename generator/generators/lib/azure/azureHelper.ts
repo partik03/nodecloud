@@ -39,7 +39,7 @@ export function groupAzureMethods(methods): any {
 }
 
 export function filterAzureMethods(groupedMethods): any {
-  let methods = [];
+  const methods = [];
   groupedMethods.map(group => {
     if (group.array.length === 1) {
       methods.push(group.array[0]);

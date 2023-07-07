@@ -21,19 +21,19 @@ export function getAST(sdkFileInfo, multi?: boolean) {
       );
 
       if (multi === true) {
-        let classes = [];
+        const classes = [];
         ast.forEachChild(child => {
           if (SyntaxKind[child.kind] === "ClassDeclaration") {
-            let cloned = Object.assign({}, child);
+            const cloned = Object.assign({}, child);
             classes.push(cloned);
           }
         });
         resolve(classes);
       } else {
-        let cloned = null;
+        const cloned = null;
         await ast.forEachChild(child => {
           if (SyntaxKind[child.kind] === "ClassDeclaration") {
-            let cloned = Object.assign({}, child);
+            const cloned = Object.assign({}, child);
             return resolve(cloned);
           }
         });

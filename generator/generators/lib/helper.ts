@@ -37,7 +37,7 @@ const filters = {
 };
 
 const getDir = (service: string): string => {
-  for (let dir in dirMap) {
+  for (const dir in dirMap) {
     if (dirMap[dir].includes(service)) {
       return dir;
     }

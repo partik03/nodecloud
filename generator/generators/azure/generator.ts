@@ -88,7 +88,7 @@ export function extractSDKData(sdkFiles, methods) {
 }
 
 export async function generateAzureClass(serviceClass, serviceName) {
-  let methods: FunctionData[] = [];
+  const methods: FunctionData[] = [];
 
   Object.keys(serviceClass).map((key, index) => {
     methods.push({

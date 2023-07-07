@@ -33,7 +33,7 @@ const dummyAst = createSourceFile(
 );
 
 export function extractSDKData(sdkClassAst, serviceClass) {
-	let methods: FunctionData[] = [];
+	const methods: FunctionData[] = [];
 	const functions = [];
 
 	Object.keys(serviceClass).map((key, index) => {

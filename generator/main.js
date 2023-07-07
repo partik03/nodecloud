@@ -17,6 +17,7 @@ try {
 			// 	generateDOClass(services[service][provider], service);
 			// } else
 			if (provider == 'Linode') {
+				// console.log();
 				generator_1.generateLinodeClass(
 					services_1[service][provider],
 					service

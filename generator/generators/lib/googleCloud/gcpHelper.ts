@@ -43,7 +43,7 @@ export function groupGCPMethods(methods): any {
 }
 
 export function filterGCPMethods(groupedMethods): any {
-  let methods = [];
+  const methods = [];
   groupedMethods.map(group => {
     if (group.array.length === 1) {
       methods.push(group.array[0]);

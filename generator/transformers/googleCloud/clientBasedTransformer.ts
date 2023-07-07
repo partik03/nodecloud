@@ -74,10 +74,10 @@ export async function clientBasedTransform(
   importStatments.fill(Object.assign({}, code.statements[0]));
   code.statements = importStatments.concat(code.statements.slice(1));
 
-  let classDeclarationNode: any = code.statements.find(node =>
+  const classDeclarationNode: any = code.statements.find(node =>
     ts.isClassDeclaration(node)
   );
-  let constructorNode: any = classDeclarationNode.members.find(
+  const constructorNode: any = classDeclarationNode.members.find(
     node => ts.SyntaxKind[node.kind] === "Constructor"
   );
   const clientObjects: any = new Array(classData.clients.length);
@@ -90,7 +90,7 @@ export async function clientBasedTransform(
   ) => (rootNode: T) => {
     function visit(node: ts.Node): ts.Node {
       if (ts.isClassDeclaration(node)) {
-        let functions: any = [];
+        const functions: any = [];
         classData.functions.map(method => {
           let clonedNode;
           if (method.returnTypeName === "Promise") {
@@ -237,7 +237,7 @@ export async function clientBasedTransform(
       }
 
       if (ts.isMethodDeclaration(node)) {
-        let parameters = classData.functions[count].params.map(param => {
+        const parameters = classData.functions[count].params.map(param => {
           let statment;
 
           if (param.optional) {

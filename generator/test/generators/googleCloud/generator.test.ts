@@ -31,7 +31,7 @@ describe("GCP generator extractClassBasedSDKData", () => {
           );
           sdkFile.forEachChild(child => {
             if (SyntaxKind[child.kind] === "ClassDeclaration") {
-              let cloned = Object.assign({}, child);
+              const cloned = Object.assign({}, child);
               file.classes.push(cloned);
             }
           });
@@ -68,7 +68,7 @@ describe("GCP generator extractClassBasedSDKData", () => {
           );
           sdkFile.forEachChild(child => {
             if (SyntaxKind[child.kind] === "ClassDeclaration") {
-              let cloned = Object.assign({}, child);
+              const cloned = Object.assign({}, child);
               file.classes.push(cloned);
             }
           });

@@ -140,20 +140,149 @@ var __generator =
 		}
 	};
 exports.__esModule = true;
-exports.generateLinodeClass = void 0;
+exports.generateLinodeClass = exports.getFunctions = exports.extractSDKData = void 0;
+var fs = require('fs');
+var typescript_1 = require('typescript');
 var parser_1 = require('../../parsers/linode/parser');
-function generateLinodeClass(serviceClass, serviceName) {
+var transformer_1 = require('../../transformers/linode/transformer');
+var helper_1 = require('../lib/helper');
+var dummyFile = process.cwd() + '/dummyClasses/linode.js';
+var dummyAst = typescript_1.createSourceFile(
+	dummyFile,
+	fs.readFileSync(dummyFile).toString(),
+	typescript_1.ScriptTarget.Latest,
+	true
+);
+function extractSDKData(sdkAst, serviceClass) {
+	var methods = [];
+	var functions = [];
+	Object.keys(serviceClass).map(function(key, index) {
+		functions.push(serviceClass[key].split(' ')[2]);
+	});
+	sdkAst.map(function(method) {
+		var methodName = method.name.escapedText;
+		if (methodName && functions.includes(methodName)) {
+			var name_1;
+			Object.keys(serviceClass).map(function(key, index) {
+				if (serviceClass[key].split(' ')[2] === methodName) {
+					name_1 = key;
+				}
+			});
+			var parameters_1 = [];
+			var methodParameters = method.type.parameters;
+			methodParameters.map(function(param) {
+				if (param.name.excapedText !== 'callback') {
+					var parameter = {
+						name: param.name.escapedText,
+						optional: param.questionToken ? true : false,
+						type: typescript_1.SyntaxKind[param.type.kind],
+						typeName: null,
+					};
+					// common type
+					if (param.type.typeName) {
+						parameter.typeName = param.type.typeName.text;
+					}
+					parameters_1.push(parameter);
+				}
+			});
+			// console.log(parameters);
+			methods.push({
+				functionName: name_1.toString(),
+				SDKFunctionName: methodName,
+				params: parameters_1,
+			});
+		}
+	});
+	return methods;
+}
+exports.extractSDKData = extractSDKData;
+function getFunctions(sdkFiles, serviceClass) {
 	return __awaiter(this, void 0, void 0, function() {
-		var methods, files, sdkFiles;
+		var functionsArray;
 		var _this = this;
 		return __generator(this, function(_a) {
 			switch (_a.label) {
 				case 0:
-					methods = [];
-					console.log('serviceClass', serviceClass);
+					functionsArray = [];
+					return [
+						4 /*yield*/,
+						sdkFiles.map(function(file) {
+							return __awaiter(_this, void 0, void 0, function() {
+								var _this = this;
+								return __generator(this, function(_a) {
+									parser_1
+										.getAST(file)
+										.then(function(result) {
+											return __awaiter(
+												_this,
+												void 0,
+												void 0,
+												function() {
+													var sdkAst, functions;
+													return __generator(
+														this,
+														function(_a) {
+															sdkAst = result;
+															try {
+																functions = extractSDKData(
+																	sdkAst,
+																	serviceClass
+																);
+																functions.map(
+																	function(
+																		method,
+																		index
+																	) {
+																		functionsArray.push(
+																			method
+																		);
+																	}
+																);
+															} catch (e) {
+																console.error(
+																	e
+																);
+															}
+															return [
+																2 /*return*/,
+															];
+														}
+													);
+												}
+											);
+										});
+									return [2 /*return*/];
+								});
+							});
+						}),
+					];
+				case 1:
+					_a.sent();
+					return [2 /*return*/, functionsArray];
+			}
+		});
+	});
+}
+exports.getFunctions = getFunctions;
+function generateLinodeClass(serviceClass, serviceName) {
+	return __awaiter(this, void 0, void 0, function() {
+		var methods_1,
+			files,
+			sdkFiles,
+			functionsArray,
+			classData,
+			output,
+			filePath,
+			dir,
+			e_1;
+		return __generator(this, function(_a) {
+			switch (_a.label) {
+				case 0:
+					_a.trys.push([0, 3, , 4]);
+					methods_1 = [];
 					if (serviceClass == null) return [2 /*return*/];
 					Object.keys(serviceClass).map(function(key, index) {
-						methods.push({
+						methods_1.push({
 							pkgName: serviceClass[key].split(' ')[0],
 							fileName: serviceClass[key].split(' ')[1],
 							functionName: key,
@@ -165,7 +294,7 @@ function generateLinodeClass(serviceClass, serviceName) {
 					});
 					files = Array.from(
 						new Set(
-							methods.map(function(method) {
+							methods_1.map(function(method) {
 								return method.fileName;
 							})
 						)
@@ -173,10 +302,10 @@ function generateLinodeClass(serviceClass, serviceName) {
 					sdkFiles = files.map(function(file) {
 						return {
 							fileName: file,
-							pkgName: methods[0].pkgName,
+							pkgName: methods_1[0].pkgName,
 							ast: null,
 							client: null,
-							sdkFunctionNames: methods
+							sdkFunctionNames: methods_1
 								.filter(function(method) {
 									return method.fileName === file;
 								})
@@ -185,35 +314,56 @@ function generateLinodeClass(serviceClass, serviceName) {
 								}),
 						};
 					});
-					console.log('sdkFiles', sdkFiles);
+					return [4 /*yield*/, getFunctions(sdkFiles, serviceClass)];
+				case 1:
+					functionsArray = _a.sent();
+					classData = {
+						className: serviceName + 'LinodeClass',
+						functions: functionsArray,
+						serviceName: serviceName,
+					};
 					return [
 						4 /*yield*/,
-						Promise.all(
-							sdkFiles.map(function(file) {
-								return __awaiter(
-									_this,
-									void 0,
-									void 0,
-									function() {
-										return __generator(this, function(_a) {
-											switch (_a.label) {
-												case 0:
-													return [
-														4 /*yield*/,
-														parser_1.getAST(file),
-													];
-												case 1:
-													_a.sent();
-													return [2 /*return*/];
-											}
-										});
-									}
-								);
-							})
-						),
+						transformer_1.transform(dummyAst, classData),
 					];
-				case 1:
-					_a.sent();
+				case 2:
+					output = _a.sent();
+					filePath = void 0;
+					dir = helper_1.getDir(serviceName);
+					if (
+						!fs.existsSync(
+							process.cwd() + '/generatedClasses/Linode/' + dir
+						)
+					) {
+						fs.mkdirSync(
+							process.cwd() + '/generatedClasses/Linode/' + dir
+						);
+					}
+					if (/^[A-Z]*$/.test(serviceName)) {
+						filePath =
+							process.cwd() +
+							'/generatedClasses/Linode/' +
+							dir +
+							'/linode-' +
+							serviceName +
+							'.js';
+					} else {
+						filePath =
+							process.cwd() +
+							'/generatedClasses/Linode/' +
+							dir +
+							'/linode-' +
+							serviceName.charAt(0).toLowerCase() +
+							serviceName.slice(1) +
+							'.js';
+					}
+					helper_1.printFile(filePath, output);
+					return [3 /*break*/, 4];
+				case 3:
+					e_1 = _a.sent();
+					console.error(e_1);
+					return [3 /*break*/, 4];
+				case 4:
 					return [2 /*return*/];
 			}
 		});
