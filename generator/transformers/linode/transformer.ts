@@ -75,11 +75,6 @@ export async function transform(
 		return ts.visitNode(rootNode, visit);
 	};
 
-	// const addIdentifiers = <T extends ts.Node>(
-	// 	context: ts.TransformationContext
-	// ) => (rootNode: T) => {
-	// 	let count = 0;
-	// };
 
 	const addIdentifiers = <T extends ts.Node>(
 		context: ts.TransformationContext
@@ -138,8 +133,8 @@ export async function transform(
 						ts.isIdentifier(childNode) &&
 						childNode.text === 'SDKFunctionName'
 					) {
-						console.log(classData.functions[count].params);
-
+						// console.log(classData.functions[count].params[0]);
+						
 						const args = classData.functions[count].params.map(
 							param => ts.createIdentifier(param.name)
 						);
@@ -189,7 +184,6 @@ export async function transform(
 						return statment;
 					}
 				);
-				console.log('parameters', parameters);
 
 				let comment;
 				if (parameters.length > 0) {

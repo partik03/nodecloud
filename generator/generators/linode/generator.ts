@@ -52,8 +52,12 @@ export function extractSDKData(sdkAst, serviceClass) {
 	});
 
 	sdkAst.map(method => {
+		// console.log("method",method);
+		
 		const methodName = method.name.escapedText;
 		if (methodName && functions.includes(methodName)) {
+			// console.log(method);
+			
 			let name;
 			Object.keys(serviceClass).map((key, index) => {
 				if (serviceClass[key].split(' ')[2] === methodName) {
@@ -63,6 +67,8 @@ export function extractSDKData(sdkAst, serviceClass) {
 			const parameters = [];
 
 			const methodParameters = method.type.parameters;
+			console.log(methodParameters[0].name.elements);
+			
 
 			methodParameters.map(param => {
 				if (param.name.excapedText !== 'callback') {
@@ -111,6 +117,8 @@ export async function getFunctions(sdkFiles, serviceClass) {
 			}
 		});
 	});
+
+	
 	return functionsArray;
 }
 
@@ -149,6 +157,8 @@ export async function generateLinodeClass(serviceClass, serviceName) {
 			sdkFiles,
 			serviceClass
 		);
+		// console.log(functionsArray);
+		
 
 		const classData: ClassData = {
 			className: serviceName + 'LinodeClass',

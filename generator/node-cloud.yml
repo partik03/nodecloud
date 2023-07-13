@@ -23,11 +23,11 @@ ComputeInstance:
         destroy: droplets.d.ts deleteById
         start: droplets.d.ts requestAction
         stop: droplets.d.ts requestAction
-    Linode:
-        create: linodes linodes.d.ts createLinode
-        list: linodes linodes.d.ts getLinodes
-        destroy: linodes linodes.d.ts deleteLinode
-        update: linodes linodes.d.ts updateLinode
+    # Linode:
+    #     create: linodes linodes.d.ts createLinode
+    #     list: linodes linodes.d.ts getLinodes
+    #     destroy: linodes linodes.d.ts deleteLinode
+    #     update: linodes linodes.d.ts updateLinode
 
 StorageBucket:
     AWS:
@@ -48,10 +48,10 @@ StorageBucket:
         list: storage storage.d.ts getBuckets
         upload: storage bucket.d.ts upload
         makePublic: storage file.d.ts makePublic
-    # Linode:
-    #     create: object-storage buckets.d.ts createBucket
-    #     delete: object-storage buckets.d.ts deleteBucket
-    #     list: object-storage buckets.d.ts getBuckets
+    Linode:
+        # create: object-storage buckets.d.ts createBucket
+        delete: object-storage buckets.d.ts deleteBucket
+        # list: object-storage buckets.d.ts getBuckets
 
 PaaS:
     AWS:
