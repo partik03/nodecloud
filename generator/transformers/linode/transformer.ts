@@ -75,7 +75,6 @@ export async function transform(
 		return ts.visitNode(rootNode, visit);
 	};
 
-
 	const addIdentifiers = <T extends ts.Node>(
 		context: ts.TransformationContext
 	) => (rootNode: T) => {
@@ -134,7 +133,7 @@ export async function transform(
 						childNode.text === 'SDKFunctionName'
 					) {
 						// console.log(classData.functions[count].params[0]);
-						
+
 						const args = classData.functions[count].params.map(
 							param => ts.createIdentifier(param.name)
 						);
